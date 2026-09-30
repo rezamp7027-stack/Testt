@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Testt admin product management.">
+<title>Admin — Testt</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-page">
+<header class="site-header"><div class="container nav">
+<a class="brand" href="index.html">Test<span>t</span></a>
+<nav class="nav-links"><a href="index.html">Store</a><a href="products.html">Products</a></nav>
+<div class="admin-user"><span id="admin-status">Admin</span><button id="logout" class="btn btn-secondary" type="button" hidden>Log out</button></div>
+</div></header>
+<main class="container">
+<section id="login-panel" class="admin-login">
+<div class="kicker">Private area</div><h1>Store admin.</h1><p class="muted">Sign in to manage the products shown on the public storefront.</p>
+<form id="login-form" class="contact-form">
+<div class="field"><label for="username">Username</label><input id="username" name="username" autocomplete="username" value="admin" required></div>
+<div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+<button class="btn btn-primary" type="submit">Sign in</button>
+<p id="login-error" class="admin-error" role="alert"></p>
+</form></section>
+<section id="dashboard" hidden>
+<div class="admin-head"><div><div class="kicker">Dashboard</div><h1>Products.</h1><p class="muted">Add, edit, deactivate, or delete products. Changes are live on the storefront.</p></div><button id="new-product" class="btn btn-primary" type="button">+ Add product</button></div>
+<div class="admin-toolbar"><input id="admin-search" type="search" placeholder="Search products…" aria-label="Search products"><select id="admin-status-filter" aria-label="Filter by status"><option value="all">All products</option><option value="active">Active only</option><option value="inactive">Inactive only</option></select></div>
+<div id="admin-message" class="admin-message" role="status"></div>
+<div id="admin-products" class="admin-table"></div>
+</section>
+</main>
+<dialog id="product-dialog" class="product-dialog">
+<form id="product-form" method="dialog">
+<div class="dialog-head"><div><div class="kicker" id="dialog-kicker">Product</div><h2 id="dialog-title">Add product</h2></div><button type="button" class="icon-btn" id="close-dialog" aria-label="Close">×</button></div>
+<input type="hidden" id="product-id">
+<div class="admin-form-grid">
+<div class="field"><label for="product-name">Name</label><input id="product-name" maxlength="120" required></div>
+<div class="field"><label for="product-slug">Slug</label><input id="product-slug" maxlength="160" required pattern="[a-z0-9-]+"></div>
+<div class="field"><label for="product-price">Price (USD)</label><input id="product-price" type="number" min="0" step="0.01" required></div>
+<div class="field"><label for="product-category">Category</label><input id="product-category" maxlength="60" required></div>
+<div class="field"><label for="product-icon">Icon</label><input id="product-icon" maxlength="20" value="◻"></div>
+<div class="field"><label for="product-active">Status</label><select id="product-active"><option value="true">Active — visible</option><option value="false">Inactive — hidden</option></select></div>
+</div>
+<div class="field"><label for="product-description">Description</label><textarea id="product-description" maxlength="2000" required></textarea></div>
+<div class="dialog-actions"><button type="button" class="btn btn-secondary" id="cancel-product">Cancel</button><button class="btn btn-primary" type="submit">Save product</button></div>
+<p id="form-error" class="admin-error" role="alert"></p>
+</form>
+</dialog>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
