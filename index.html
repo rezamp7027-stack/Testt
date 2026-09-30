@@ -1,1 +1,80 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Testt — a premium multi-page storefront demo."><meta name="theme-color" content="#0b0b0c"><title>Testt — Objects worth keeping.</title><link rel="stylesheet" href="css/style.css"></head><body><header class="site-header"><div class="container nav"><a class="brand" href="index.html">Test<span>t</span></a><nav class="nav-links"><a href="index.html">Home</a><a href="products.html">Shop</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav><a class="cart-link" href="cart.html">Cart <span class="count">(<span data-cart-count>0</span>)</span></a></div></header><main><section class="hero"><div class="container"><div class="eyebrow">A considered storefront</div><h1>Objects worth keeping.</h1><p>Testt is a premium e-commerce experience built around clean design, useful products, and a frictionless shopping flow.</p><div class="actions"><a class="btn btn-primary" href="products.html">Explore the collection →</a><a class="btn btn-secondary" href="about.html">Our approach</a></div></div></section><section class="section"><div class="container"><div class="section-head"><div><div class="kicker">Featured</div><h2>Selected pieces.</h2></div><a class="btn btn-outline" href="products.html">View all</a></div><div id="featured" class="grid"></div></div></section><section class="section"><div class="container"><div class="feature-grid"><div class="feature"><strong>Curated</strong><p>Fewer products, stronger presentation, clearer decisions.</p></div><div class="feature"><strong>Fast</strong><p>Fast frontend with a real Supabase backend.</p></div><div class="feature"><strong>Ready to grow</strong><p>Static today, ready for a real backend and payments tomorrow.</p></div></div></div></section></main><footer><div class="container footer-inner"><span>© 2026 Testt</span><span>Built with intention.</span></div></footer><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/supabase.js"></script><script src="js/app.js"></script></body></html>
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="منوی دیجیتال کافه Testt؛ قهوه، نوشیدنی سرد، فست‌فود، قلیان و دسر.">
+<meta name="theme-color" content="#0b0a09">
+<meta property="og:title" content="Testt Café — منوی دیجیتال">
+<meta property="og:description" content="منوی دیجیتال پریمیوم Testt Café">
+<meta property="og:type" content="website">
+<title>Testt Café — منوی دیجیتال</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html"><span class="brand-mark">T</span><span data-setting="cafe_name">Testt Café</span></a>
+    <nav class="desktop-nav" aria-label="ناوبری اصلی">
+      <a href="#menu">منو</a><a href="#signature">سیگنچر</a><a href="#info">اطلاعات</a>
+    </nav>
+    <a class="cart-link" href="cart.html" aria-label="سبد سفارش">سبد <b data-cart-count>0</b></a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="container hero-inner">
+    <div class="eyebrow">DIGITAL MENU · PREMIUM CAFÉ</div>
+    <h1><span data-setting="menu_title">منوی کافه</span><br><em data-setting="menu_subtitle">قهوه، نوشیدنی، غذا و تجربه‌های امضادار</em></h1>
+    <p class="hero-copy">انتخابت را با چند لمس پیدا کن. منو همیشه به‌روز است و قیمت‌ها لحظه‌ای از پنل کافه مدیریت می‌شوند.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#menu">مشاهده منو <span>↓</span></a>
+      <a class="btn btn-ghost" href="#info">اطلاعات کافه</a>
+    </div>
+  </div>
+</section>
+
+<section id="menu" class="menu-section">
+  <div class="container">
+    <div class="section-intro">
+      <div><div class="kicker">THE MENU</div><h2>انتخاب کن.</h2></div>
+      <p>از قهوه صبح تا نوشیدنی شب و انتخاب‌های سیگنچر.</p>
+    </div>
+    <div id="category-nav" class="category-nav" role="tablist" aria-label="دسته‌بندی منو"></div>
+    <div class="search-shell">
+      <span aria-hidden="true">⌕</span>
+      <label class="sr-only" for="menu-search">جستجوی منو</label>
+      <input id="menu-search" type="search" placeholder="نام، ترکیبات یا دسته را جستجو کن…" autocomplete="off">
+      <button id="clear-search" type="button" aria-label="پاک کردن جستجو" hidden>×</button>
+    </div>
+    <div id="menu-root" class="menu-root"></div>
+  </div>
+</section>
+
+<section id="signature" class="signature-section">
+  <div class="container">
+    <div class="signature-head"><div class="kicker">SIGNATURE</div><h2>امضای کافه.</h2><p>محصولاتی که تیم کافه برای تجربه متفاوت انتخاب کرده است.</p></div>
+    <div id="signature-root" class="signature-grid"></div>
+  </div>
+</section>
+
+<section id="info" class="info-section">
+  <div class="container info-grid">
+    <div><div class="kicker">VISIT US</div><h2 data-setting="cafe_name">Testt Café</h2><p class="muted" data-setting="address">آدرس کافه</p><a class="text-link" data-setting-link="phone" href="tel:">تماس با کافه</a></div>
+    <div><div class="info-card"><span>ساعات کاری</span><strong data-setting="opening_hours">هر روز</strong></div><div class="info-card"><span>اینستاگرام</span><strong data-setting="instagram">—</strong></div></div>
+  </div>
+</section>
+</main>
+
+<a class="floating-cart" href="cart.html" aria-label="مشاهده سبد سفارش"><span>سبد سفارش</span><b data-cart-count>0</b></a>
+<div id="product-modal" class="modal" hidden aria-hidden="true"><div class="modal-backdrop" data-close-modal></div><div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" type="button" data-close-modal aria-label="بستن">×</button><div id="modal-content"></div></div></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<footer><div class="container footer-inner"><span>© 2026 <span data-setting="cafe_name">Testt Café</span></span><span>Digital menu</span></div></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/supabase.js"></script><script src="js/app.js"></script>
+</body></html>
