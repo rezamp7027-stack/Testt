@@ -34,6 +34,7 @@ function productCard(p,featured=false){
 }
 function renderMenu(){
  const root=$("#menu-root");if(!root)return;
+ if(!products.length&&!categories.length){root.innerHTML='<div class="empty-state"><span>!</span><h3>منو موقتاً در دسترس نیست</h3><p>اتصال به سرور منو برقرار نشد. لطفاً چند لحظه بعد دوباره تلاش کنید.</p><button class="btn btn-primary" type="button" onclick="location.reload()">تلاش دوباره</button></div>';return}
  const q=($("#menu-search")?.value||"").trim().toLocaleLowerCase("fa");
  const visible=products.filter(p=>productMatches(p,q));
  const groups=categories.map(c=>({c,items:visible.filter(p=>p.category===c.slug)})).filter(g=>g.items.length);
