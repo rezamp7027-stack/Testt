@@ -1,0 +1,2 @@
+alter table public.products drop constraint if exists products_discount_less_than_price;
+alter table public.products add constraint products_discount_less_than_price check(discount_price is null or (discount_price >= 0 and discount_price < price));
