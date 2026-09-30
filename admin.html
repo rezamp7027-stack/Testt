@@ -1,53 +1,13 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Testt admin product management.">
-<title>Admin — Testt</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body class="admin-page">
-<header class="site-header"><div class="container nav">
-<a class="brand" href="index.html">Test<span>t</span></a>
-<nav class="nav-links"><a href="index.html">Store</a><a href="products.html">Products</a></nav>
-<div class="admin-user"><span id="admin-status">Admin</span><button id="logout" class="btn btn-secondary" type="button" hidden>Log out</button></div>
-</div></header>
-<main class="container">
-<section id="login-panel" class="admin-login">
-<div class="kicker">Private area</div><h1>Store admin.</h1><p class="muted">Sign in to manage the products shown on the public storefront.</p>
-<form id="login-form" class="contact-form">
-<div class="field"><label for="username">Username</label><input id="username" name="username" autocomplete="username" value="admin" required></div>
-<div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
-<button class="btn btn-primary" type="submit">Sign in</button>
-<p id="login-error" class="admin-error" role="alert"></p>
-</form></section>
-<section id="dashboard" hidden>
-<div class="admin-head"><div><div class="kicker">Dashboard</div><h1>Products.</h1><p class="muted">Add, edit, deactivate, or delete products. Changes are live on the storefront.</p></div><button id="new-product" class="btn btn-primary" type="button">+ Add product</button></div>
-<div class="admin-toolbar"><input id="admin-search" type="search" placeholder="Search products…" aria-label="Search products"><select id="admin-status-filter" aria-label="Filter by status"><option value="all">All products</option><option value="active">Active only</option><option value="inactive">Inactive only</option></select></div>
-<div id="admin-message" class="admin-message" role="status"></div>
-<div id="admin-products" class="admin-table"></div>
-</section>
-</main>
-<dialog id="product-dialog" class="product-dialog">
-<form id="product-form" method="dialog">
-<div class="dialog-head"><div><div class="kicker" id="dialog-kicker">Product</div><h2 id="dialog-title">Add product</h2></div><button type="button" class="icon-btn" id="close-dialog" aria-label="Close">×</button></div>
-<input type="hidden" id="product-id">
-<div class="admin-form-grid">
-<div class="field"><label for="product-name">Name</label><input id="product-name" maxlength="120" required></div>
-<div class="field"><label for="product-slug">Slug</label><input id="product-slug" maxlength="160" required pattern="[a-z0-9-]+"></div>
-<div class="field"><label for="product-price">Price (USD)</label><input id="product-price" type="number" min="0" step="0.01" required></div>
-<div class="field"><label for="product-category">Category</label><input id="product-category" maxlength="60" required></div>
-<div class="field"><label for="product-icon">Icon</label><input id="product-icon" maxlength="20" value="◻"></div>
-<div class="field"><label for="product-active">Status</label><select id="product-active"><option value="true">Active — visible</option><option value="false">Inactive — hidden</option></select></div>
-</div>
-<div class="field"><label for="product-description">Description</label><textarea id="product-description" maxlength="2000" required></textarea></div>
-<div class="dialog-actions"><button type="button" class="btn btn-secondary" id="cancel-product">Cancel</button><button class="btn btn-primary" type="submit">Save product</button></div>
-<p id="form-error" class="admin-error" role="alert"></p>
-</form>
-</dialog>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase.js"></script>
-<script src="js/admin.js"></script>
-</body>
-</html>
+<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>پنل مدیریت — Testt Café</title><link rel="stylesheet" href="css/style.css"></head><body class="admin-page">
+<section id="login-panel" class="admin-login"><div class="kicker">PRIVATE AREA</div><h1>مدیریت کافه.</h1><p class="muted">برای مدیریت منو وارد حساب مدیر شوید.</p><form id="login-form"><div class="field"><label for="username">نام کاربری</label><input id="username" value="admin" autocomplete="username" required></div><div class="field"><label for="password">رمز عبور</label><input id="password" type="password" autocomplete="current-password" required></div><button class="btn btn-primary full">ورود</button><p id="login-error" class="admin-error" role="alert"></p></form></section>
+<div id="app-shell" class="admin-shell" hidden><aside class="admin-sidebar"><h2><span class="brand-mark">T</span> Testt Café</h2><nav class="admin-nav"><button class="active" data-tab="dashboard">داشبورد</button><button data-tab="products">محصولات</button><button data-tab="categories">دسته‌ها</button><button data-tab="orders">سفارش‌ها</button><button data-tab="settings">تنظیمات</button><a href="index.html" class="admin-nav-link">مشاهده منو</a><button id="logout">خروج</button></nav></aside>
+<main class="admin-main">
+<section id="tab-dashboard" class="admin-section active"><div class="admin-top"><div><div class="kicker">OVERVIEW</div><h1>داشبورد</h1><p class="muted">وضعیت منو و سفارش‌ها.</p></div></div><div id="stats" class="stats-grid"></div><div class="admin-list" id="recent-orders"></div></section>
+<section id="tab-products" class="admin-section"><div class="admin-top"><div><div class="kicker">MENU</div><h1>محصولات</h1><p class="muted">قیمت، موجودی، تصویر و ویژگی‌های هر آیتم.</p></div><button id="new-product" class="btn btn-primary">+ محصول جدید</button></div><div class="admin-toolbar"><input id="admin-search" type="search" placeholder="جستجوی محصول…"><select id="admin-status"><option value="all">همه</option><option value="available">موجود</option><option value="unavailable">ناموجود</option><option value="hidden">مخفی</option></select></div><p id="product-message" class="admin-message"></p><div class="admin-list" id="products-list"></div></section>
+<section id="tab-categories" class="admin-section"><div class="admin-top"><div><div class="kicker">STRUCTURE</div><h1>دسته‌ها</h1><p class="muted">دسته‌های منو را اضافه، مرتب و مخفی کن.</p></div><button id="new-category" class="btn btn-primary">+ دسته جدید</button></div><p id="category-message" class="admin-message"></p><div class="admin-list" id="categories-list"></div></section>
+<section id="tab-orders" class="admin-section"><div class="admin-top"><div><div class="kicker">ORDERS</div><h1>سفارش‌ها</h1><p class="muted">سفارش‌های ثبت‌شده از منوی QR.</p></div></div><p id="order-message" class="admin-message"></p><div class="admin-list" id="orders-list"></div></section>
+<section id="tab-settings" class="admin-section"><div class="admin-top"><div><div class="kicker">CAFE PROFILE</div><h1>تنظیمات</h1><p class="muted">اطلاعات عمومی منوی مشتری.</p></div></div><form id="settings-form" class="admin-form"><div class="admin-grid"><div class="field"><label for="set-name">نام کافه</label><input id="set-name" required></div><div class="field"><label for="set-phone">تلفن</label><input id="set-phone"></div><div class="field wide"><label for="set-address">آدرس</label><input id="set-address"></div><div class="field"><label for="set-instagram">اینستاگرام</label><input id="set-instagram"></div><div class="field"><label for="set-hours">ساعات کاری</label><input id="set-hours"></div><div class="field"><label for="set-currency">واحد قیمت</label><input id="set-currency"></div><div class="field"><label for="set-logo">آدرس لوگو</label><input id="set-logo" type="url"></div><div class="field wide"><label for="set-title">عنوان منو</label><input id="set-title"></div><div class="field wide"><label for="set-subtitle">زیرعنوان منو</label><textarea id="set-subtitle"></textarea></div></div><button class="btn btn-primary">ذخیره تنظیمات</button><p id="settings-message" class="admin-message"></p></form></section>
+</main></div>
+<dialog id="product-dialog" class="product-dialog"><form id="product-form" class="admin-form"><div class="dialog-head"><div><div class="kicker">PRODUCT</div><h2 id="product-dialog-title">محصول جدید</h2></div><button id="close-product" type="button" class="modal-close">×</button></div><input id="product-id" type="hidden"><div class="admin-grid"><div class="field"><label for="p-name">نام</label><input id="p-name" required></div><div class="field"><label for="p-slug">Slug</label><input id="p-slug" pattern="[a-z0-9-]+" required></div><div class="field"><label for="p-price">قیمت</label><input id="p-price" type="number" min="0" step="1000" required></div><div class="field"><label for="p-discount">قیمت تخفیف</label><input id="p-discount" type="number" min="0" step="1000"></div><div class="field"><label for="p-category">دسته</label><select id="p-category" required></select></div><div class="field"><label for="p-sort">ترتیب</label><input id="p-sort" type="number" value="10"></div><div class="field wide"><label for="p-image">آدرس تصویر</label><input id="p-image" type="url"></div><div class="field"><label for="p-icon">آیکن جایگزین</label><input id="p-icon" value="✦"></div><div class="field"><label for="p-badge">Badge</label><input id="p-badge"></div><div class="field wide"><label for="p-description">توضیحات</label><textarea id="p-description" required></textarea></div><div class="field wide"><label for="p-ingredients">ترکیبات</label><input id="p-ingredients"></div><div class="field wide"><label for="p-sizes">سایزها (JSON)</label><input id="p-sizes" placeholder='["Small","Large"]'></div><div class="field wide"><label for="p-addons">افزودنی‌ها (JSON)</label><input id="p-addons" placeholder='[{"name":"پنیر","price":30000}]'></div></div><div class="admin-checks"><label><input id="p-active" type="checkbox" checked> نمایش</label><label><input id="p-available" type="checkbox" checked> موجود</label><label><input id="p-popular" type="checkbox"> پرفروش</label><label><input id="p-signature" type="checkbox"> Signature</label></div><p id="product-form-error" class="admin-error"></p><div class="dialog-actions"><button id="cancel-product" type="button" class="btn btn-ghost">لغو</button><button class="btn btn-primary">ذخیره</button></div></form></dialog>
+<dialog id="category-dialog" class="product-dialog"><form id="category-form" class="admin-form"><div class="dialog-head"><div><div class="kicker">CATEGORY</div><h2>دسته</h2></div><button id="close-category" type="button" class="modal-close">×</button></div><input id="category-id" type="hidden"><div class="admin-grid"><div class="field"><label for="c-name">نام</label><input id="c-name" required></div><div class="field"><label for="c-slug">Slug</label><input id="c-slug" pattern="[a-z0-9-]+" required></div><div class="field wide"><label for="c-description">توضیحات</label><input id="c-description"></div><div class="field"><label for="c-icon">آیکن</label><input id="c-icon" value="✦"></div><div class="field"><label for="c-image">آدرس تصویر</label><input id="c-image" type="url"></div><div class="field"><label for="c-sort">ترتیب</label><input id="c-sort" type="number" value="10"></div></div><label><input id="c-active" type="checkbox" checked> نمایش در منو</label><p id="category-form-error" class="admin-error"></p><div class="dialog-actions"><button id="cancel-category" type="button" class="btn btn-ghost">لغو</button><button class="btn btn-primary">ذخیره</button></div></form></dialog>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/supabase.js"></script><script src="js/admin.js"></script></body></html>
