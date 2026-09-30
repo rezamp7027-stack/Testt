@@ -22,6 +22,7 @@ async function loadData(){
  if(pr.error) console.warn(pr.error); else products=(pr.data||[]).map(p=>({...p,price:Number(p.price),discount_price:p.discount_price==null?null:Number(p.discount_price),available:p.available!==false}));
  if(ca.error) console.warn(ca.error); else categories=ca.data||[];
  if(se.error) console.warn(se.error); else settings=se.data||{};
+ if(!products.length && !pr.error) products=[];
  applySettings(); return products;
 }
 function categoryLabel(slug){return categories.find(c=>c.slug===slug)?.name||slug}
