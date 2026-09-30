@@ -1,136 +1,32 @@
 (() => {
-  const sb = window.testtSupabase;
-  const $ = (id) => document.getElementById(id);
-  const loginPanel = $("login-panel"), dashboard = $("dashboard");
-  const loginForm = $("login-form"), loginError = $("login-error");
-  const productsEl = $("admin-products"), messageEl = $("admin-message");
-  const dialog = $("product-dialog"), productForm = $("product-form"), formError = $("form-error");
-  let products = [];
-
-  const emailForUsername = (username) => username.trim().toLowerCase() === "admin" ? "admin@testt.local" : null;
-
-  function setMessage(msg = "", error = false) {
-    messageEl.textContent = msg;
-    messageEl.classList.toggle("is-error", error);
-  }
-  function escapeHtml(v) {
-    return String(v ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  }
-  function render() {
-    const q = $("admin-search").value.trim().toLowerCase();
-    const filter = $("admin-status-filter").value;
-    const rows = products.filter(p => {
-      const matchesText = !q || [p.name,p.slug,p.category,p.description].some(v => String(v ?? "").toLowerCase().includes(q));
-      const matchesStatus = filter === "all" || (filter === "active" ? p.active : !p.active);
-      return matchesText && matchesStatus;
-    });
-    productsEl.innerHTML = rows.length ? rows.map(p => `
-      <article class="admin-row">
-        <div class="admin-product-main"><div class="product-icon">${escapeHtml(p.icon || "◻")}</div><div><strong>${escapeHtml(p.name)}</strong><small>${escapeHtml(p.slug)} · ${escapeHtml(p.category)}</small></div></div>
-        <div class="admin-price">$${Number(p.price).toFixed(2)}</div>
-        <span class="status ${p.active ? "is-active" : "is-inactive"}">${p.active ? "Active" : "Hidden"}</span>
-        <div class="admin-actions">
-          <button class="btn btn-secondary" data-edit="${p.id}" type="button">Edit</button>
-          <button class="btn btn-secondary" data-toggle="${p.id}" type="button">${p.active ? "Hide" : "Show"}</button>
-          <button class="btn btn-danger" data-delete="${p.id}" type="button">Delete</button>
-        </div>
-      </article>`).join("") : '<div class="admin-empty">No products found.</div>';
-  }
-
-  async function ensureAdmin() {
-    const { data: { user } } = await sb.auth.getUser();
-    if (!user) return false;
-    const { data, error } = await sb.from("admins").select("email").maybeSingle();
-    if (error || !data || data.email.toLowerCase() !== (user.email || "").toLowerCase()) {
-      await sb.auth.signOut(); return false;
-    }
-    return true;
-  }
-
-  async function loadProducts() {
-    setMessage("Loading…");
-    const { data, error } = await sb.from("products").select("*").order("created_at", { ascending: false });
-    if (error) throw error;
-    products = data || [];
-    render(); setMessage(`${products.length} products`);
-  }
-
-  function openEditor(p = null) {
-    $("dialog-title").textContent = p ? "Edit product" : "Add product";
-    $("product-id").value = p?.id || "";
-    $("product-name").value = p?.name || "";
-    $("product-slug").value = p?.slug || "";
-    $("product-price").value = p?.price ?? "";
-    $("product-category").value = p?.category || "";
-    $("product-icon").value = p?.icon || "◻";
-    $("product-active").value = String(p?.active ?? true);
-    $("product-description").value = p?.description || "";
-    formError.textContent = "";
-    dialog.showModal();
-  }
-
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault(); loginError.textContent = "";
-    const email = emailForUsername($("username").value);
-    if (!email) { loginError.textContent = "Invalid username."; return; }
-    const { error } = await sb.auth.signInWithPassword({ email, password: $("password").value });
-    if (error) { loginError.textContent = error.message; return; }
-    if (!await ensureAdmin()) { loginError.textContent = "This account is not an authorized admin."; return; }
-    loginPanel.hidden = true; dashboard.hidden = false; $("logout").hidden = false; $("admin-status").textContent = "admin";
-    try { await loadProducts(); } catch (err) { setMessage(err.message, true); }
-  });
-
-  $("logout").addEventListener("click", async () => { await sb.auth.signOut(); location.reload(); });
-  $("new-product").addEventListener("click", () => openEditor());
-  $("close-dialog").addEventListener("click", () => dialog.close());
-  $("cancel-product").addEventListener("click", () => dialog.close());
-  $("admin-search").addEventListener("input", render);
-  $("admin-status-filter").addEventListener("change", render);
-
-  productsEl.addEventListener("click", async (e) => {
-    const edit = e.target.closest("[data-edit]"), toggle = e.target.closest("[data-toggle]"), del = e.target.closest("[data-delete]");
-    if (edit) return openEditor(products.find(p => p.id === edit.dataset.edit));
-    if (toggle) {
-      const p = products.find(x => x.id === toggle.dataset.toggle); if (!p) return;
-      toggle.disabled = true;
-      const { error } = await sb.from("products").update({active: !p.active}).eq("id", p.id);
-      toggle.disabled = false;
-      if (error) return setMessage(error.message, true);
-      await loadProducts();
-    }
-    if (del) {
-      const p = products.find(x => x.id === del.dataset.delete); if (!p) return;
-      if (!confirm(`Delete “${p.name}”? This cannot be undone.`)) return;
-      del.disabled = true;
-      const { error } = await sb.from("products").delete().eq("id", p.id);
-      del.disabled = false;
-      if (error) return setMessage(error.message, true);
-      await loadProducts();
-    }
-  });
-
-  productForm.addEventListener("submit", async (e) => {
-    e.preventDefault(); formError.textContent = "";
-    const id = $("product-id").value;
-    const payload = {
-      name: $("product-name").value.trim(),
-      slug: $("product-slug").value.trim().toLowerCase(),
-      price: Number($("product-price").value),
-      category: $("product-category").value.trim(),
-      icon: $("product-icon").value.trim() || "◻",
-      active: $("product-active").value === "true",
-      description: $("product-description").value.trim()
-    };
-    if (!Number.isFinite(payload.price) || payload.price < 0) return formError.textContent = "Enter a valid price.";
-    const result = id ? await sb.from("products").update(payload).eq("id", id) : await sb.from("products").insert(payload);
-    if (result.error) return formError.textContent = result.error.message;
-    dialog.close(); await loadProducts();
-  });
-
-  (async () => {
-    if (await ensureAdmin()) {
-      loginPanel.hidden = true; dashboard.hidden = false; $("logout").hidden = false; $("admin-status").textContent = "admin";
-      try { await loadProducts(); } catch (err) { setMessage(err.message, true); }
-    }
-  })();
+const sb=window.testtSupabase,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let products=[],categories=[],orders=[],settings={};const money=n=>new Intl.NumberFormat("fa-IR").format(Math.round(Number(n)||0))+" تومان";
+const setMsg=(id,t,e=false)=>{const x=$("#"+id);if(x){x.textContent=t||"";x.classList.toggle("error",e)}};
+const adminEmail=u=>u.trim().toLowerCase()==="admin"?"admin@testt.local":null;
+async function ensureAdmin(){const{data:{user},error}=await sb.auth.getUser();if(error||!user)return false;const{data,error:e}=await sb.from("admins").select("email").eq("email",user.email).maybeSingle();if(e||!data){await sb.auth.signOut({scope:"local"});return false}return true}
+async function loadAll(){const [p,c,o,s]=await Promise.all([sb.from("products").select("*").order("sort_order",{ascending:true}),sb.from("menu_categories").select("*").order("sort_order",{ascending:true}),sb.from("orders").select("*").order("created_at",{ascending:false}).limit(100),sb.from("menu_settings").select("*").eq("id",1).maybeSingle()]);if(p.error)throw p.error;if(c.error)throw c.error;if(o.error)throw o.error;if(s.error)throw s.error;products=p.data||[];categories=c.data||[];orders=o.data||[];settings=s.data||{};renderAll()}
+function catName(s){return categories.find(c=>c.slug===s)?.name||s}
+function renderAll(){renderStats();renderProducts();renderCategories();renderOrders();fillSettings();fillCats();renderRecent()}
+function renderStats(){const a=products.filter(p=>p.active).length,v=products.filter(p=>p.active&&p.available).length,s=products.filter(p=>p.signature).length;$("#stats").innerHTML=[["محصولات",products.length],["فعال",a],["موجود",v],["سیگنچر",s],["دسته‌ها",categories.length],["سفارش‌ها",orders.length]].map(x=>'<div class="stat"><span>'+x[0]+"</span><strong>"+x[1]+"</strong></div>").join("")}
+function renderProducts(){const q=($("#admin-search").value||"").trim().toLocaleLowerCase("fa"),f=$("#admin-status").value,rows=products.filter(p=>{const t=[p.name,p.slug,p.category,p.description,p.ingredients].join(" ").toLocaleLowerCase("fa");return(!q||t.includes(q))&&(f==="all"||(f==="available"&&p.active&&p.available)||(f==="unavailable"&&p.active&&!p.available)||(f==="hidden"&&!p.active))});$("#products-list").innerHTML=rows.length?rows.map(p=>'<div class="admin-row"><div class="admin-product"><div class="admin-icon">'+esc(p.icon||"✦")+"</div><div><b>"+esc(p.name)+"</b><small>"+esc(catName(p.category))+"</small></div></div><div>"+money(p.discount_price??p.price)+"</div><span class="admin-status "+(p.active&&p.available?"on":"off")+"">"+(p.active?(p.available?"فعال":"ناموجود"):"مخفی")+'</span><div class="admin-actions"><button data-edit="'+p.id+'">ویرایش</button><button data-toggle="'+p.id+'">'+(p.active?"مخفی":"نمایش")+'</button><button data-av="'+p.id+'">'+(p.available?"ناموجود":"موجود")+'</button><button class="danger" data-del="'+p.id+'">حذف</button></div></div>').join(""):'<div class="empty-state compact">محصولی پیدا نشد.</div>'}
+function renderCategories(){$("#categories-list").innerHTML=categories.map(c=>'<div class="admin-row"><div><b>'+esc(c.name)+"</b><small>"+esc(c.slug)+"</small></div><div>رتبه "+c.sort_order+"</div><span class="admin-status "+(c.active?"on":"off")+"">"+(c.active?"نمایش":"مخفی")+'</span><div class="admin-actions"><button data-ce="'+c.id+'">ویرایش</button><button data-ct="'+c.id+'">'+(c.active?"مخفی":"نمایش")+'</button><button class="danger" data-cd="'+c.id+'">حذف</button></div></div>').join("")}
+function statusFa(s){return({pending:"در انتظار",paid:"پرداخت‌شده",processing:"در حال آماده‌سازی",shipped:"تحویل",completed:"تکمیل",cancelled:"لغو"})[s]||s}
+function renderOrders(){$("#orders-list").innerHTML=orders.length?orders.map(o=>'<div class="order-row"><div><b>'+esc(o.customer_name)+"</b><small>"+esc(o.customer_phone||"")+" · میز "+esc(o.table_number||"—")+"</small></div><div>"+money(o.total)+"</div><div>"+new Date(o.created_at).toLocaleString("fa-IR")+'</div><div><select data-os="'+o.id+'">'+["pending","paid","processing","shipped","completed","cancelled"].map(s=>'<option value="'+s+'" '+(s===o.status?"selected":"")+">"+statusFa(s)+"</option>").join("")+"</select></div><div>"+esc(o.note||"")+"</div></div>").join(""):'<div class="empty-state compact">هنوز سفارشی ثبت نشده.</div>'}
+function renderRecent(){$("#recent-orders").innerHTML=orders.slice(0,5).map(o=>'<div class="admin-row"><div><b>'+esc(o.customer_name)+"</b></div><div>"+money(o.total)+"</div><div>"+statusFa(o.status)+"</div><div>"+new Date(o.created_at).toLocaleDateString("fa-IR")+"</div></div>").join("")||'<div class="empty-state compact">سفارشی وجود ندارد.</div>'}
+function fillCats(){$("#p-category").innerHTML=categories.map(c=>'<option value="'+esc(c.slug)+'">'+esc(c.name)+"</option>").join("")}
+function fillSettings(){$("#set-name").value=settings.cafe_name||"";$("#set-phone").value=settings.phone||"";$("#set-address").value=settings.address||"";$("#set-instagram").value=settings.instagram||"";$("#set-hours").value=settings.opening_hours||"";$("#set-currency").value=settings.currency||"تومان";$("#set-logo").value=settings.logo_url||"";$("#set-title").value=settings.menu_title||"";$("#set-subtitle").value=settings.menu_subtitle||""}
+const arr=v=>{if(!v.trim())return[];try{const x=JSON.parse(v);return Array.isArray(x)?x:[]}catch{return null}};
+function editProduct(p){$("#product-dialog-title").textContent=p?"ویرایش محصول":"محصول جدید";$("#product-id").value=p?.id||"";$("#p-name").value=p?.name||"";$("#p-slug").value=p?.slug||"";$("#p-price").value=p?.price??"";$("#p-discount").value=p?.discount_price??"";$("#p-category").value=p?.category||categories[0]?.slug||"";$("#p-sort").value=p?.sort_order??10;$("#p-image").value=p?.image_url||"";$("#p-icon").value=p?.icon||"✦";$("#p-badge").value=p?.badge||"";$("#p-description").value=p?.description||"";$("#p-ingredients").value=p?.ingredients||"";$("#p-sizes").value=JSON.stringify(p?.sizes||[]);$("#p-addons").value=JSON.stringify(p?.addons||[]);$("#p-active").checked=p?.active??true;$("#p-available").checked=p?.available??true;$("#p-popular").checked=p?.popular??false;$("#p-signature").checked=p?.signature??false;$("#product-form-error").textContent="";$("#product-dialog").showModal()}
+function editCat(c){$("#category-id").value=c?.id||"";$("#c-name").value=c?.name||"";$("#c-slug").value=c?.slug||"";$("#c-description").value=c?.description||"";$("#c-icon").value=c?.icon||"✦";$("#c-image").value=c?.image_url||"";$("#c-sort").value=c?.sort_order??10;$("#c-active").checked=c?.active??true;$("#category-form-error").textContent="";$("#category-dialog").showModal()}
+$("#login-form").onsubmit=async e=>{e.preventDefault();setMsg("login-error","");const email=adminEmail($("#username").value);if(!email)return setMsg("login-error","نام کاربری نامعتبر است.",true);const{error}=await sb.auth.signInWithPassword({email,password:$("#password").value});if(error)return setMsg("login-error","ورود انجام نشد.",true);if(!await ensureAdmin())return setMsg("login-error","این حساب دسترسی مدیر ندارد.",true);location.reload()};
+$("#logout").onclick=async()=>{await sb.auth.signOut({scope:"local"});location.reload()};
+$$("[data-tab]").forEach(b=>b.onclick=()=>{$$("[data-tab]").forEach(x=>x.classList.remove("active"));b.classList.add("active");$$(".admin-section").forEach(x=>x.classList.remove("active"));$("#tab-"+b.dataset.tab).classList.add("active")});
+$("#admin-search").oninput=renderProducts;$("#admin-status").onchange=renderProducts;$("#new-product").onclick=()=>editProduct();$("#new-category").onclick=()=>editCat();$("#close-product").onclick=()=>$("#product-dialog").close();$("#cancel-product").onclick=()=>$("#product-dialog").close();$("#close-category").onclick=()=>$("#category-dialog").close();$("#cancel-category").onclick=()=>$("#category-dialog").close();
+$("#product-form").onsubmit=async e=>{e.preventDefault();const sizes=arr($("#p-sizes").value),addons=arr($("#p-addons").value),price=Number($("#p-price").value),disc=$("#p-discount").value===""?null:Number($("#p-discount").value);if(!sizes||!addons)return setMsg("product-form-error","JSON سایز یا افزودنی نامعتبر است.",true);if(!Number.isFinite(price)||price<0||disc!=null&&(!Number.isFinite(disc)||disc<0||disc>=price))return setMsg("product-form-error","قیمت‌ها را بررسی کنید.",true);const payload={name:$("#p-name").value.trim(),slug:$("#p-slug").value.trim().toLowerCase(),price,discount_price:disc,category:$("#p-category").value,image_url:$("#p-image").value.trim(),icon:$("#p-icon").value.trim()||"✦",badge:$("#p-badge").value.trim(),description:$("#p-description").value.trim(),ingredients:$("#p-ingredients").value.trim(),sizes,addons,sort_order:Number($("#p-sort").value)||0,active:$("#p-active").checked,available:$("#p-available").checked,popular:$("#p-popular").checked,signature:$("#p-signature").checked};const id=$("#product-id").value,r=id?await sb.from("products").update(payload).eq("id",id):await sb.from("products").insert(payload);if(r.error)return setMsg("product-form-error",r.error.message,true);$("#product-dialog").close();await loadAll();setMsg("product-message","ذخیره شد.")};
+$("#category-form").onsubmit=async e=>{e.preventDefault();const payload={name:$("#c-name").value.trim(),slug:$("#c-slug").value.trim().toLowerCase(),description:$("#c-description").value.trim(),icon:$("#c-icon").value.trim()||"✦",image_url:$("#c-image").value.trim(),sort_order:Number($("#c-sort").value)||0,active:$("#c-active").checked},id=$("#category-id").value,r=id?await sb.from("menu_categories").update(payload).eq("id",id):await sb.from("menu_categories").insert(payload);if(r.error)return setMsg("category-form-error",r.error.message,true);$("#category-dialog").close();await loadAll();setMsg("category-message","ذخیره شد.")};
+$("#products-list").onclick=async e=>{const ed=e.target.closest("[data-edit]"),tg=e.target.closest("[data-toggle]"),av=e.target.closest("[data-av]"),del=e.target.closest("[data-del]");if(ed)return editProduct(products.find(p=>String(p.id)===ed.dataset.edit));let p;if(tg||av||del)p=products.find(x=>String(x.id)===(tg||av||del).dataset[tg?"toggle":av?"av":"del"]);if(!p)return;if(tg){const r=await sb.from("products").update({active:!p.active}).eq("id",p.id);if(r.error)return setMsg("product-message",r.error.message,true)}if(av){const r=await sb.from("products").update({available:!p.available}).eq("id",p.id);if(r.error)return setMsg("product-message",r.error.message,true)}if(del&&confirm("حذف «"+p.name+"»؟")){const r=await sb.from("products").delete().eq("id",p.id);if(r.error)return setMsg("product-message",r.error.message,true)}await loadAll()};
+$("#categories-list").onclick=async e=>{const ed=e.target.closest("[data-ce]"),tg=e.target.closest("[data-ct]"),del=e.target.closest("[data-cd]");if(ed)return editCat(categories.find(c=>String(c.id)===ed.dataset.ce));const c=categories.find(x=>String(x.id)===(tg||del)?.dataset[tg?"ct":"cd"]);if(!c)return;if(tg){const r=await sb.from("menu_categories").update({active:!c.active}).eq("id",c.id);if(r.error)return setMsg("category-message",r.error.message,true)}if(del){if(products.some(p=>p.category===c.slug))return setMsg("category-message","این دسته محصول دارد؛ ابتدا محصولات را جابه‌جا کنید.",true);if(confirm("حذف «"+c.name+"»؟")){const r=await sb.from("menu_categories").delete().eq("id",c.id);if(r.error)return setMsg("category-message",r.error.message,true)}}await loadAll()};
+$("#orders-list").onchange=async e=>{const s=e.target.closest("[data-os]");if(!s)return;const r=await sb.from("orders").update({status:s.value}).eq("id",s.dataset.os);if(r.error)return setMsg("order-message",r.error.message,true);await loadAll();setMsg("order-message","وضعیت به‌روز شد.")};
+$("#settings-form").onsubmit=async e=>{e.preventDefault();const payload={cafe_name:$("#set-name").value.trim(),phone:$("#set-phone").value.trim(),address:$("#set-address").value.trim(),instagram:$("#set-instagram").value.trim(),opening_hours:$("#set-hours").value.trim(),currency:$("#set-currency").value.trim()||"تومان",logo_url:$("#set-logo").value.trim(),menu_title:$("#set-title").value.trim(),menu_subtitle:$("#set-subtitle").value.trim()},r=await sb.from("menu_settings").update(payload).eq("id",1);if(r.error)return setMsg("settings-message",r.error.message,true);setMsg("settings-message","تنظیمات ذخیره شد.")};
+(async()=>{if(!await ensureAdmin())return;$("#login-panel").hidden=true;$("#app-shell").hidden=false;try{await loadAll()}catch(e){setMsg("product-message",e.message,true)}})();
 })();
