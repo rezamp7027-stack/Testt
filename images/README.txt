@@ -1,0 +1,1 @@
+Product images are managed through Supabase image_url fields.
