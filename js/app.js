@@ -11,7 +11,7 @@ const saveCart=c=>{localStorage.setItem(CART_KEY,JSON.stringify(c));updateCartCo
 const updateCartCount=()=>$$("[data-cart-count]").forEach(e=>e.textContent=getCart().reduce((s,i)=>s+Math.min(99,Math.max(1,Number(i.qty)||1)),0));
 const toast=(msg,type="")=>{const e=$("#toast");if(!e)return;e.textContent=msg;e.className="toast show "+type;clearTimeout(window.__toast);window.__toast=setTimeout(()=>e.className="toast",2600)};
 const activePrice=p=>Number(p.discount_price??p.price);
-const imageHtml=(p,cls="product-visual")=>p.image_url?'<img class="'+cls+'" src="'+esc(p.image_url)+'" alt="'+esc(p.name)+'" loading="lazy" referrerpolicy="no-referrer">':'<div class="'+cls+' fallback-visual" aria-hidden="true"><span>'+esc(p.icon||"✦")+'</span></div>';
+const imageHtml=(p,cls="product-visual")=>p.image_url?'<img class="'+cls+'" src="'+esc(p.image_url)+'" alt="'+esc(p.name)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" width="800" height="800">':'<div class="'+cls+' fallback-visual" aria-hidden="true"><span>'+esc(p.icon||"✦")+'</span></div>';
 function applySettings(){ const marks=$$(".brand-mark");marks.forEach(e=>{e.innerHTML=settings.logo_url?"<img src=\""+esc(settings.logo_url)+"\" alt=\"\" loading=\"eager\">":"T"}); $$("[data-setting]").forEach(e=>{const k=e.dataset.setting;if(settings[k]!=null)e.textContent=settings[k]});const phone=$("[data-setting-link=phone]");if(phone&&settings.phone){phone.href="tel:"+String(settings.phone).replace(/[^+\d]/g,"");phone.textContent=settings.phone} document.title=(settings.cafe_name||"Testt Café")+" — منوی دیجیتال"}
 async function loadData(){
  const [pr,ca,se]=await Promise.all([
