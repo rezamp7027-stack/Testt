@@ -5,7 +5,7 @@ let products=[],categories=[],settings={};
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const money=n=>new Intl.NumberFormat("fa-IR").format(Math.round(Number(n)||0))+" تومان";
+const money=n=>new Intl.NumberFormat("fa-IR").format(Math.round(Number(n)||0))+" "+(settings.currency||"تومان");
 const getCart=()=>{try{const c=JSON.parse(localStorage.getItem(CART_KEY));return Array.isArray(c)?c:[]}catch{return[]}};
 const saveCart=c=>{localStorage.setItem(CART_KEY,JSON.stringify(c));updateCartCount()};
 const updateCartCount=()=>$$("[data-cart-count]").forEach(e=>e.textContent=getCart().reduce((s,i)=>s+Math.min(99,Math.max(1,Number(i.qty)||1)),0));
