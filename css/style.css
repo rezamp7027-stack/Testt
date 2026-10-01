@@ -83,3 +83,9 @@
  .search-shell{height:46px;margin-bottom:20px;padding:0 11px}
  .floating-cart{bottom:10px}
 }
+
+
+/* ADMIN ACCESS + FOOTER */
+.footer-right{display:flex;align-items:center;gap:12px}.admin-access{display:inline-flex;align-items:center;justify-content:center;padding:4px 9px;border:1px solid rgba(200,166,106,.22);border-radius:999px;color:var(--muted);font-size:10px;transition:.2s}.admin-access:hover{color:var(--gold2);border-color:rgba(200,166,106,.5);background:rgba(200,166,106,.05)}
+.admin-login{width:min(440px,calc(100% - 24px));margin:8vh auto;padding:26px;border-radius:20px}.admin-login h1{font-size:42px}.admin-login .field{margin-bottom:12px}
+@media(max-width:620px){.footer-inner{align-items:center}.footer-right{gap:8px}.admin-access{padding:3px 8px}}
