@@ -19,3 +19,11 @@
 
 .admin-nav-link{display:block;color:var(--muted);padding:11px 12px;border-radius:10px;font-size:14px}.admin-nav-link:hover{background:var(--surface2);color:var(--text)}.admin-checks{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0 4px;color:var(--muted);font-size:12px}.admin-checks label{display:flex;align-items:center;gap:6px}.dialog-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:20px}.dialog-head h2{font-size:28px;margin:5px 0}.product-dialog{width:min(900px,calc(100% - 24px));max-height:92vh;padding:0;border:1px solid var(--line);border-radius:22px;background:var(--surface);color:var(--text)}.product-dialog::backdrop{background:rgba(0,0,0,.75);backdrop-filter:blur(4px)}.product-dialog .admin-form{border:0;max-width:none;border-radius:22px}.product-dialog .modal-close{position:static;background:transparent}.admin-form .dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}.admin-form .btn-ghost{background:transparent;color:var(--text)}.admin-row small{display:block;color:var(--muted);font-size:10px;margin-top:3px}.order-row small{display:block;color:var(--muted);font-size:10px}.order-row select{width:100%}
 @media(max-width:620px){.admin-sidebar h2{display:none}.admin-main{padding:22px 12px}.admin-form{padding:18px}.stats-grid{gap:8px}.stat{padding:13px}.stat strong{font-size:24px}.product-dialog{width:calc(100% - 12px);max-height:96vh}.product-dialog .admin-form{padding:18px}}
+
+/* Compact menu cards */
+.product-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.product-visual{height:190px;aspect-ratio:auto;object-fit:cover}
+.product-card-body{padding:12px 14px}
+.product-card h3{font-size:16px;margin:5px 0 2px}
+.product-card p{min-height:34px;font-size:11px;line-height:1.5}
+@media(max-width:620px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.product-card{border-radius:10px}.product-visual{height:105px}.product-card-body{padding:7px}.product-card h3{font-size:11px;line-height:1.35}.product-card p{display:none}.price-row{margin-top:5px}.price-row strong{font-size:9px}.card-meta{min-height:16px}.category-label,.badge,.availability{font-size:7px;padding:1px 4px}.product-card:hover{transform:none}}
