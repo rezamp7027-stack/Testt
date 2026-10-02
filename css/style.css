@@ -322,3 +322,16 @@ footer{background:#070706}
 .hero-inner,.hero-glow{z-index:1}.hero-glow{opacity:.55}
 .page-hero{background-image:linear-gradient(90deg,rgba(7,6,5,.92),rgba(7,6,5,.68)),url("https://d8j0ntlcm91z4.cloudfront.net/user_36eIr1isDUTNCuNk7dazeSjIsL2/hf_20260610_085730_83bb7da9-b43c-4b08-ad76-c683c9c61404_min.webp");background-size:cover;background-position:center;}
 @media(max-width:700px){.hero{min-height:72vh;background-position:center}.hero::after{background:linear-gradient(180deg,rgba(7,6,5,.18),rgba(7,6,5,.72) 62%,var(--bg) 100%)}.page-hero{background-position:center;}}
+
+
+/* CATEGORY BACKDROPS */
+.menu-category{position:relative;padding:34px 22px 30px;border:1px solid rgba(235,220,194,.09);border-radius:26px;overflow:hidden;background:#11110f}
+.menu-category::before{content:"";position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;opacity:.15;filter:saturate(.8);transform:scale(1.03)}
+.menu-category::after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,rgba(8,8,7,.97),rgba(8,8,7,.68)),linear-gradient(180deg,rgba(8,8,7,.1),rgba(8,8,7,.9));pointer-events:none}
+.menu-category>*{position:relative;z-index:1}
+#cat-hot-drinks::before{background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_36eIr1isDUTNCuNk7dazeSjIsL2/hf_20260610_085722_1b5f8e5a-a49d-4a9b-b31b-ead59dd29191_min.webp")}
+#cat-cold-drinks::before{background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_36eIr1isDUTNCuNk7dazeSjIsL2/hf_20260610_085730_83bb7da9-b43c-4b08-ad76-c683c9c61404_min.webp")}
+#cat-fast-food::before{background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_36eIr1isDUTNCuNk7dazeSjIsL2/hf_20260610_085722_1b5f8e5a-a49d-4a9b-b31b-ead59dd29191_min.webp")}
+#cat-hookah::before{background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_36eIr1isDUTNCuNk7dazeSjIsL2/hf_20260610_085730_83bb7da9-b43c-4b08-ad76-c683c9c61404_min.webp")}
+#cat-desserts::before{background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_36eIr1isDUTNCuNk7dazeSjIsL2/hf_20260610_085722_1b5f8e5a-a49d-4a9b-b31b-ead59dd29191_min.webp")}
+@media(max-width:620px){.menu-category{padding:24px 9px 18px;border-radius:18px}.menu-category::before{opacity:.11}}
