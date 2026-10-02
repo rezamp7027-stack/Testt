@@ -315,3 +315,10 @@ footer{background:#070706}
   .page-hero{padding:88px 0 58px}
   .detail-page{padding:58px 0}
 }
+
+/* Iranian-hosted visual backgrounds — sourced from an Iranian café website gallery */
+.hero{background-image:linear-gradient(90deg,rgba(7,6,5,.94) 0%,rgba(7,6,5,.78) 42%,rgba(7,6,5,.62) 100%),url("https://d8j0ntlcm91z4.cloudfront.net/user_36eIr1isDUTNCuNk7dazeSjIsL2/hf_20260610_085722_1b5f8e5a-a49d-4a9b-b31b-ead59dd29191_min.webp"),radial-gradient(circle at 75% 25%,rgba(200,166,106,.12),transparent 30%);background-size:cover,cover,auto;background-position:center;background-attachment:scroll;}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,6,5,.08),rgba(7,6,5,.48) 72%,var(--bg) 100%);pointer-events:none;}
+.hero-inner,.hero-glow{z-index:1}.hero-glow{opacity:.55}
+.page-hero{background-image:linear-gradient(90deg,rgba(7,6,5,.92),rgba(7,6,5,.68)),url("https://d8j0ntlcm91z4.cloudfront.net/user_36eIr1isDUTNCuNk7dazeSjIsL2/hf_20260610_085730_83bb7da9-b43c-4b08-ad76-c683c9c61404_min.webp");background-size:cover;background-position:center;}
+@media(max-width:700px){.hero{min-height:72vh;background-position:center}.hero::after{background:linear-gradient(180deg,rgba(7,6,5,.18),rgba(7,6,5,.72) 62%,var(--bg) 100%)}.page-hero{background-position:center;}}
