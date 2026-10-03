@@ -1,5 +1,5 @@
 async function loadHeaderLogo(){
-  const r=await s.from("site_settings").select("value").eq("key","header_logo_url").maybeSingle();
+  const r=await window.rmSupabase.from("site_settings").select("value").eq("key","header_logo_url").maybeSingle();
   if(r.data?.value) applyHeaderLogo(r.data.value);
 }
 function applyHeaderLogo(url){
