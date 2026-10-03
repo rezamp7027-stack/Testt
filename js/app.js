@@ -25,7 +25,7 @@ function countdown(e){
   return d?d+" روز · "+String(h).padStart(2,"0")+":"+String(m).padStart(2,"0"):String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
 }
 async function load(){
-  await loadHeaderLogo();
+  try{await loadHeaderLogo()}catch(e){console.warn("header logo",e)}
   const r=await s.from("events").select("*").eq("status","PUBLISHED").order("event_date",{ascending:true,nullsFirst:false});
   if(r.error){console.error(r.error);return toast("دریافت ایونت‌ها انجام نشد.")}
   events=r.data||[];
