@@ -19,12 +19,12 @@
 <div id="reservation-view" hidden>
   <div class="booking-progress"><span id="booking-step-1" class="active"><b>۱</b> انتخاب</span><i></i><span id="booking-step-2"><b>۲</b> اطلاعات</span><i></i><span id="booking-step-3"><b>۳</b> ثبت</span></div>
   <span class="kicker" id="modal-kicker">REGISTRATION</span><h2 id="modal-title">ثبت‌نام</h2><p id="modal-subtitle">—</p>
-  <form id="reservation-form">
+  <form id="reservation-form" novalidate>
     <div id="individual-fields" hidden>
       <div id="seat-picker" class="modal-seat-picker"><div class="picker-title">انتخاب صندلی</div><div id="modal-seat-map" class="modal-seat-map"></div><p id="modal-seat-status" class="center">یک صندلی آزاد انتخاب کن.</p></div>
       <div class="form-grid"><label>نام و نام خانوادگی<input id="full-name" maxlength="120"></label><label>شماره موبایل<input id="phone-input" maxlength="20" inputmode="tel"></label><label>تعداد نفرات<input id="guest-count" type="number" min="1" max="20" value="1"></label><label class="wide">توضیحات<textarea id="notes" maxlength="1000"></textarea></label></div>
     </div>
-    <div id="team-fields" hidden><div class="form-grid"><label>نام تیم<input id="team-name" maxlength="80"></label><label>نام سرگروه<input id="captain-name" maxlength="120"></label><label class="wide">شماره تلفن سرگروه<input id="captain-phone" maxlength="20" inputmode="tel"></label></div><div id="member-fields"></div></div>
+    <div id="team-fields" hidden><div class="form-grid"><label>نام تیم<input id="team-name" maxlength="80"></label><label>نام سرگروه<input id="captain-name" maxlength="120"></label><label class="wide">شماره تلفن سرگروه<input id="captain-phone" maxlength="20" inputmode="tel"></label></div><div id="member-fields" class="member-fields"></div></div>
     <p id="form-error" class="error"></p><div class="form-actions"><button type="button" id="back-to-event" class="btn">بازگشت</button><button id="submit" class="btn primary full">ادامه</button></div>
   </form>
 </div>
