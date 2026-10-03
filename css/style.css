@@ -103,3 +103,4 @@ header{background:rgba(5,6,7,.72);border-bottom-color:rgba(212,175,55,.16)}
 #waitlist-list{padding:0}
 .team-admin-row{border-bottom:1px solid rgba(255,255,255,.05)}
 @media(max-width:700px){.detail-image{height:210px}.detail-content{padding:20px}.detail-content h2{font-size:28px}.detail-stats{grid-template-columns:1fr 1fr}.detail-actions{grid-template-columns:1fr}.event-actions{grid-template-columns:1fr}.booking-progress i{width:20px}}
+\n.member-fields{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:8px 0 25px}.member-fields-title{grid-column:1/-1;color:#d4af37;font-size:11px;border-bottom:1px solid rgba(212,175,55,.15);padding-bottom:8px}.member-input{display:block;font-size:10px;color:#aeb5bb}.member-input input{display:block;width:100%;margin-top:6px;background:#080b0f;border:1px solid rgba(255,255,255,.09);color:#fff;padding:11px 12px}@media(max-width:600px){.member-fields{grid-template-columns:1fr}.member-fields-title{grid-column:auto}}
