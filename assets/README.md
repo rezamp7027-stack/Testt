@@ -1,0 +1,1 @@
+Put the official Rafsanjan Mafia logo at assets/logo.png. The UI uses an RM text fallback if it is absent.
