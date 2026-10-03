@@ -63,3 +63,5 @@ grant select,insert,update,delete on public.events to authenticated;
 grant select,insert,update,delete on public.seats to authenticated;
 grant select,update,delete on public.reservations to authenticated;
 grant select on public.users to authenticated;
+
+-- Explicitly remove the legacy cafe backend; it is no longer part of this product.\ndrop table if exists public.order_items cascade;\ndrop table if exists public.orders cascade;\ndrop table if exists public.products cascade;\ndrop table if exists public.menu_categories cascade;\ndrop table if exists public.menu_settings cascade;\ndrop table if exists public.contact_messages cascade;\n
