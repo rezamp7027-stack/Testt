@@ -54,3 +54,24 @@ header{background:rgba(5,6,7,.72);border-bottom-color:rgba(212,175,55,.16)}
 .btn.primary:hover{box-shadow:0 10px 30px rgba(212,175,55,.18)}
 .modal-box{border-color:rgba(212,175,55,.2);box-shadow:0 30px 100px rgba(0,0,0,.7)}
 @media(max-width:700px){.hero{background-position:62% center}.event-card-media{height:205px}.rule-card .rule-image{height:185px}}
+
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.gallery-item{margin:0;position:relative;overflow:hidden;background:#0c0f13;border:1px solid rgba(212,175,55,.12);min-height:260px}
+.gallery-item img{display:block;width:100%;height:300px;object-fit:cover;transition:transform .45s ease,filter .45s ease;filter:saturate(.85)}
+.gallery-item:hover img{transform:scale(1.04);filter:saturate(1)}
+.gallery-item:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.88));pointer-events:none}
+.gallery-item figcaption{position:absolute;right:18px;left:18px;bottom:16px;z-index:2}
+.gallery-item figcaption b,.gallery-item figcaption small{display:block}
+.gallery-item figcaption b{font-size:13px}.gallery-item figcaption small{color:#b5a47a;font-size:9px;margin-top:4px}
+.gallery-upload-card{margin-bottom:14px}
+.gallery-admin-preview{display:block;max-width:280px;max-height:180px;object-fit:cover;margin:10px 0;border:1px solid rgba(212,175,55,.25);border-radius:2px}
+.gallery-admin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gallery-admin-item{background:#10151a;border:1px solid var(--l);padding:10px}
+.gallery-admin-item img{width:100%;height:180px;object-fit:cover;display:block}
+.gallery-admin-item>b{display:block}.gallery-admin-item>div{padding-top:10px}
+.gallery-admin-item small{display:block;color:#707a83;font-size:9px;margin-top:4px}
+.gallery-admin-actions{display:flex;gap:6px;margin-top:10px}
+.gallery-admin-actions button{border:1px solid var(--l);background:transparent;color:#bbb;padding:6px 9px;font-size:8px}
+.gallery-admin-actions .danger{color:#e78a8a;border-color:rgba(220,75,75,.35)}
+@media(max-width:850px){.gallery-grid,.gallery-admin-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.gallery-grid,.gallery-admin-grid{grid-template-columns:1fr}.gallery-item img{height:250px}.gallery-admin-item img{height:220px}}
