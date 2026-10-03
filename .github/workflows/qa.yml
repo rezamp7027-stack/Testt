@@ -1,0 +1,29 @@
+name: Rafsanjan Mafia QA
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  static-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - name: Check browser JavaScript
+        run: |
+          node --check js/app.js
+          node --check js/admin.js
+          node --check js/supabase.js
+      - name: Check required pages and assets
+        run: |
+          test -f index.html
+          test -f admin.html
+          test -f css/style.css
+          test -f js/app.js
+          test -f js/admin.js
+          test -f js/supabase.js
+          test -f supabase/functions/create-reservation/index.ts
+          ! grep -R -n -E 'products\.html|product\.html|cart\.html|about\.html|contact\.html|Testt Café|cafe_name|menu_settings' index.html admin.html js css || true
