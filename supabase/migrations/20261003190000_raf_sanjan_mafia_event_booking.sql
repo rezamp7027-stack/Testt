@@ -51,3 +51,15 @@ begin
     alter publication supabase_realtime add table public.seats;
   end if;
 end $$;
+
+create table if not exists public.admins(email text primary key,created_at timestamptz not null default now());
+alter table public.admins enable row level security;
+drop policy if exists "Admin self lookup" on public.admins;
+create policy "Admin self lookup" on public.admins for select to authenticated using(lower(email)=lower((select auth.jwt()->>'email')));
+
+grant select on public.events to anon,authenticated;
+grant select on public.seats to anon,authenticated;
+grant select,insert,update,delete on public.events to authenticated;
+grant select,insert,update,delete on public.seats to authenticated;
+grant select,update,delete on public.reservations to authenticated;
+grant select on public.users to authenticated;
