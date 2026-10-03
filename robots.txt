@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-
+Disallow: /admin.html
 Sitemap: https://rezamp7027-stack.github.io/Testt/sitemap.xml
