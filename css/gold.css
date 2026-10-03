@@ -30,3 +30,8 @@ header{background:rgba(5,5,5,.88);border-bottom-color:var(--l)}
 .tabs button.active,.tabs button:hover{background:#12110d;border-color:var(--l)}
 .stats>div{background:#10100d;border-color:var(--l)}
 .event-row,.row,.rules p,.success-box p{border-color:var(--l)}
+
+/* Admin logo uploader */
+#elogo-file{display:block;width:100%;margin-top:8px;padding:8px;border:1px dashed rgba(212,175,55,.35);border-radius:10px;background:rgba(255,255,255,.03)}
+#logo-upload-status{display:block;margin-top:6px;opacity:.65;font-size:12px}
+.logo-preview{display:block;max-width:140px;max-height:100px;object-fit:contain;margin-top:10px;border-radius:12px;border:1px solid rgba(212,175,55,.3);padding:8px;background:rgba(0,0,0,.25)}
