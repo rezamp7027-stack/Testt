@@ -1,0 +1,32 @@
+/* Rafsanjan Mafia — Black & Gold theme */
+:root{--bg:#050505;--s:#0b0b0b;--t:#f5f1e6;--m:#9b968a;--l:rgba(201,162,39,.18);--r:#c9a227;--g:#c9a227;--gold:#d4af37}
+body{background:var(--bg);color:var(--t)}
+header{background:rgba(5,5,5,.88);border-bottom-color:var(--l)}
+.brand .logo{border-color:rgba(201,162,39,.45);color:var(--gold);box-shadow:0 0 24px rgba(201,162,39,.08)}
+.btn{background:#0d0d0d;border-color:var(--l)}
+.primary{background:linear-gradient(135deg,#b78d12,#d4af37);border-color:#d4af37;color:#080808;font-weight:800;box-shadow:0 10px 30px rgba(201,162,39,.16)}
+.kicker{color:#d4af37}
+.hero{background:radial-gradient(circle at 75% 40%,rgba(201,162,39,.16),transparent 25%),linear-gradient(135deg,#050505,#0c0b08)}
+.hero:before{background:linear-gradient(90deg,#050505,rgba(5,5,5,.72),rgba(5,5,5,.35))}
+.hero h1 em{color:#d4af37}
+.ring{border-color:rgba(201,162,39,.12)}
+.dark{background:#080806;border-color:var(--l)}
+.card{background:linear-gradient(145deg,#14130f,#080808);border-color:var(--l)}
+.meta b,.stat b,.event h3{color:#f7f0dc}
+.seat{border-color:rgba(201,162,39,.38);background:rgba(201,162,39,.06);color:#dbc77f}
+.seat.reserved{border-color:rgba(150,145,130,.28);background:rgba(120,115,105,.08);color:#817d72}
+.seat.disabled{border-color:var(--l);background:#10100e;color:#555147}
+.seat.selected{background:linear-gradient(135deg,#9e7610,#d4af37);border-color:#e2c55a;color:#080808;box-shadow:0 8px 28px rgba(201,162,39,.22)}
+.seat.available:hover{border-color:#d4af37;box-shadow:0 0 20px rgba(201,162,39,.12)}
+.rules b,.quote{color:#d4af37}
+.contact{background:linear-gradient(120deg,#0a0a08,#0d0c08)}
+.contacts{background:var(--l)}
+.contacts>*{background:#0d0d0b}
+.modal-box,dialog{background:#0c0c0a;border-color:var(--l)}
+.form-grid input,.form-grid textarea,.form-grid select,.login input,.toolbar input,.toolbar select{background:#050505;border-color:var(--l)}
+.success{background:rgba(201,162,39,.1);color:#d4af37}
+.success-box{border-color:var(--l)}
+.toast{background:#f0e6c9;color:#14120a}
+.tabs button.active,.tabs button:hover{background:#12110d;border-color:var(--l)}
+.stats>div{background:#10100d;border-color:var(--l)}
+.event-row,.row,.rules p,.success-box p{border-color:var(--l)}
