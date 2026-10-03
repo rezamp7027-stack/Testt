@@ -32,6 +32,8 @@ async function load(){
   await loadCapacity();
   renderEvents();await renderGallery();await renderTeams();if(events[0])setContact(events[0]);
   startCountdowns();
+  const hash=decodeURIComponent(location.hash.replace("#event=",""));
+  if(hash&&events.some(x=>x.id===hash)) openEventDetail(events.find(x=>x.id===hash));
 }
 async function loadCapacity(){
   capacityMap={};
