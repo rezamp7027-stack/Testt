@@ -3,3 +3,54 @@
 @media(max-width:950px){.game-rules-grid{grid-template-columns:1fr 1fr}.teams-public-grid{grid-template-columns:1fr 1fr}.team-admin-row{grid-template-columns:1fr 1fr}.team-admin-row>div:nth-child(3){grid-column:1/-1}}
 @media(max-width:700px){.events-grid,.game-rules-grid,.teams-public-grid{grid-template-columns:1fr}.event-meta{grid-template-columns:1fr 1fr}.event-card-media{height:160px}.team-admin-row{grid-template-columns:1fr}.team-admin-row>div:nth-child(3){grid-column:auto}.modal-seat-map{grid-template-columns:repeat(5,1fr)}}
 .hero-noise{position:absolute;inset:0;opacity:.16;background-image:radial-gradient(rgba(255,255,255,.18) .7px,transparent .7px);background-size:5px 5px;mask-image:linear-gradient(90deg,#000,transparent 85%)}.hero-symbol{position:absolute;right:7%;top:18%;width:min(42vw,520px);height:520px;display:grid;grid-template-columns:1fr 1fr;align-content:center;gap:15px;opacity:.08;transform:rotate(-12deg);font:160px Georgia;color:#d4af37}.hero-symbol span:nth-child(2),.hero-symbol span:nth-child(3){color:#fff}.event-card-media{background-position:center;background-size:cover;filter:saturate(.8)}.event-card-media:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,6,8,.15),rgba(4,6,8,.94));z-index:0}.event-card-media>*{z-index:1}.event-symbol{position:absolute;right:50%;top:50%;transform:translate(50%,-50%);font:100px Georgia;color:rgba(255,255,255,.92);text-shadow:0 5px 35px #000;opacity:.85}.event-card.mafia .event-symbol{color:#d4af37}.event-card.gol .event-symbol{color:#e6c46a}.event-card.pantomime .event-symbol{font-family:Vazirmatn;color:#eee}.event-card.hitler .event-symbol{color:#c73636}.rule-card{overflow:hidden;padding:0}.rule-card .rule-image{height:170px;background-position:center;background-size:cover;filter:saturate(.75) contrast(1.05);position:relative}.rule-card .rule-image:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,#0a0d11 100%)}.rule-card .game-symbol,.rule-card .rule-icon,.rule-card h3,.rule-card p,.rule-card>b{position:relative;margin-left:25px;margin-right:25px}.rule-card .game-symbol{margin-top:-42px;z-index:2;width:70px;height:70px;border-radius:50%;display:grid;place-items:center;background:#0b0e12;border:1px solid rgba(212,175,55,.45);color:#d4af37;font-size:30px;box-shadow:0 12px 35px rgba(0,0,0,.5)}.rule-card .rule-icon{display:block;margin-top:18px}.rule-card h3{font-size:28px;margin-top:10px}.rule-card p{min-height:70px}.rule-card>b{display:block;margin-bottom:25px}.rule-card.mafia .rule-image{background-color:#141414}.rule-card.gol .rule-image{background-color:#2b1414}.rule-card.pantomime .rule-image{background-color:#151515}.rule-card.hitler .rule-image{background-color:#3a0808}.events-grid .event-card:hover{transform:translateY(-6px);border-color:rgba(212,175,55,.35);transition:.25s}.events-grid .event-card{transition:.25s}@media(max-width:700px){.hero-symbol{right:-3%;top:15%;width:280px;height:280px;font-size:85px}.event-symbol{font-size:75px}.rule-card .rule-image{height:145px}}
+/* premium visual layer */
+:root{--gold-hi:#f0d487;--gold-deep:#8d6a20;--black:#050607}
+body{background:radial-gradient(circle at 50% -10%,rgba(212,175,55,.06),transparent 32%),var(--bg)}
+header{background:rgba(5,6,7,.72);border-bottom-color:rgba(212,175,55,.16)}
+.brand .logo{border-color:rgba(212,175,55,.35);color:var(--gold-hi);box-shadow:inset 0 0 18px rgba(212,175,55,.05)}
+.hero{background-image:linear-gradient(90deg,rgba(5,6,7,.98) 8%,rgba(5,6,7,.82) 42%,rgba(5,6,7,.45) 72%,rgba(5,6,7,.72)),url("https://vigiato.net/wp-content/uploads/2024/02/6d8474adacc1cfddc4002344e3d02fe8cd6c047f_1686616570-edited.jpg");background-size:cover;background-position:center}
+.hero:before{background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.72))}
+.hero:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 78% 45%,rgba(212,175,55,.18),transparent 24%),linear-gradient(90deg,transparent 55%,rgba(0,0,0,.35))}
+.hero h1{text-shadow:0 18px 50px rgba(0,0,0,.7);letter-spacing:.02em}
+.hero h1 em{color:var(--gold-hi);text-shadow:0 0 30px rgba(212,175,55,.16)}
+.section{position:relative}
+.section:before{content:"";position:absolute;top:0;left:50%;width:min(900px,75%);height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.18),transparent);transform:translateX(-50%)}
+.section-head h2{font-weight:700;text-shadow:0 10px 35px rgba(0,0,0,.5)}
+.section-head>div{position:relative}
+.section-head>div:after{content:"";display:block;width:58px;height:2px;background:linear-gradient(90deg,var(--gold-hi),transparent);margin-top:18px}
+.card{background:linear-gradient(145deg,rgba(22,25,30,.94),rgba(7,9,11,.98));border-color:rgba(255,255,255,.08);box-shadow:0 25px 80px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.035)}
+.event-card{border-radius:2px;position:relative}
+.event-card:before{content:"";position:absolute;inset:0;border:1px solid rgba(212,175,55,.08);pointer-events:none;z-index:3}
+.event-card-media{height:245px;background-position:center;background-size:cover;filter:saturate(.78) contrast(1.08)}
+.event-card-media:after{background:linear-gradient(180deg,rgba(3,4,5,.08),rgba(3,4,5,.9) 92%),linear-gradient(90deg,rgba(3,4,5,.18),transparent 50%,rgba(3,4,5,.18))}
+.event-symbol{font-size:112px;opacity:.14;mix-blend-mode:screen}
+.event-card.mafia .event-symbol{color:#e3bd5b}
+.event-card.gol .event-symbol{color:#e9cf83}
+.event-card.pantomime .event-symbol{color:#fff}
+.event-card.hitler .event-symbol{color:#d44b4b}
+.event-type,.event-status{backdrop-filter:blur(10px);border-color:rgba(212,175,55,.2);border-radius:1px}
+.event-status{color:#bfc7c2}
+.event-card-body{padding:30px}
+.event-card-head{border-bottom:1px solid rgba(255,255,255,.055);padding-bottom:18px}
+.event-card h3{font-size:32px;letter-spacing:-.035em}
+.price{color:var(--gold-hi);text-shadow:0 0 20px rgba(212,175,55,.12)}
+.event-meta{border-block-color:rgba(212,175,55,.12)}
+.event-card .btn.primary{box-shadow:0 8px 28px rgba(212,175,55,.12)}
+.game-rules-grid{gap:16px}
+.rule-card{border-radius:2px;box-shadow:0 25px 60px rgba(0,0,0,.32)}
+.rule-card .rule-image{height:205px}
+.rule-card .game-symbol{border-color:rgba(212,175,55,.4);box-shadow:0 12px 40px rgba(0,0,0,.7)}
+.rule-card.mafia .rule-image{background-image:url("https://vigiato.net/wp-content/uploads/2024/02/6d8474adacc1cfddc4002344e3d02fe8cd6c047f_1686616570-edited.jpg")}
+.rule-card.gol .rule-image{background-image:url("https://static.cdn.asset.televika.com/flmt/mov_170535_320764-b.jpg?quality=90&secret=amWLYLl7Kk4fBi3ReggNCg&sharpen=90&width=1200")}
+.rule-card.pantomime .rule-image{background-image:url("https://www.ebilet.pl/now/app/uploads/2024/06/shutterstock_2461769945-scaled.jpg")}
+.rule-card.hitler .rule-image{background-image:url("https://blogs-images.forbes.com/laurenorsini/files/2016/01/hitler4.jpg")}
+.rule-card .rule-image:after{background:linear-gradient(180deg,rgba(4,5,7,.08),#0a0d11 94%)}
+.rule-card h3{font-size:29px}
+.rule-card p{line-height:2}
+.teams-public-grid{gap:16px}
+.team-public{border-radius:2px}
+.btn{border-radius:2px}
+.btn.primary{background:linear-gradient(135deg,#e1bd5c,#b48a29);border-color:#e1bd5c}
+.btn.primary:hover{box-shadow:0 10px 30px rgba(212,175,55,.18)}
+.modal-box{border-color:rgba(212,175,55,.2);box-shadow:0 30px 100px rgba(0,0,0,.7)}
+@media(max-width:700px){.hero{background-position:62% center}.event-card-media{height:205px}.rule-card .rule-image{height:185px}}
