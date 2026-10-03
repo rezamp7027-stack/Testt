@@ -70,3 +70,28 @@ create policy "Admins can update team members" on public.team_members for update
 create policy "Admins can delete team members" on public.team_members for delete to authenticated using(exists(select 1 from public.admins a where lower(a.email)=lower((select auth.jwt()->>'email'))));
 create policy "Admins can insert team members" on public.team_members for insert to authenticated with check(exists(select 1 from public.admins a where lower(a.email)=lower((select auth.jwt()->>'email'))));
 create policy "Admins can select all events" on public.events for select to authenticated using(exists(select 1 from public.admins a where lower(a.email)=lower((select auth.jwt()->>'email'))));
+create or replace function public.create_team_reservation(
+ p_event_id uuid,p_team_name text,p_captain_name text,p_captain_phone text,p_members text[]
+) returns jsonb language plpgsql security definer set search_path=public as $$
+declare e public.events; u public.users; r public.reservations; t public.teams; i integer; clean_phone text; clean_team text; clean_captain text; clean_member text;
+begin
+ select * into e from public.events where id=p_event_id for update;
+ if not found or e.status<>'PUBLISHED' then raise exception 'EVENT_NOT_AVAILABLE'; end if;
+ if e.registration_mode<>'TEAM' then raise exception 'REGISTRATION_MODE_MISMATCH'; end if;
+ clean_team:=regexp_replace(trim(p_team_name),'\s+',' ','g'); clean_captain:=regexp_replace(trim(p_captain_name),'\s+',' ','g'); clean_phone:=regexp_replace(p_captain_phone,'[\s()-]','','g');
+ if length(clean_team)<2 or length(clean_team)>80 then raise exception 'INVALID_TEAM_NAME'; end if;
+ if length(clean_captain)<2 or length(clean_captain)>120 then raise exception 'INVALID_CAPTAIN_NAME'; end if;
+ if clean_phone !~ '^\+?[0-9]{7,15}$' then raise exception 'INVALID_PHONE'; end if;
+ if coalesce(array_length(p_members,1),0)<>e.team_size then raise exception 'INVALID_TEAM_MEMBERS'; end if;
+ for i in 1..e.team_size loop clean_member:=regexp_replace(trim(p_members[i]),'\s+',' ','g'); if length(clean_member)<2 or length(clean_member)>120 then raise exception 'INVALID_MEMBER_NAME'; end if; end loop;
+ if exists(select 1 from (select lower(trim(x)) n from unnest(p_members) x) z group by n having count(*)>1) then raise exception 'DUPLICATE_MEMBER_NAMES'; end if;
+ if (select count(*) from public.teams where event_id=e.id and status in ('PENDING','CONFIRMED'))>=e.capacity then raise exception 'EVENT_FULL'; end if;
+ if exists(select 1 from public.teams where event_id=e.id and lower(team_name)=lower(clean_team)) then raise exception 'TEAM_NAME_ALREADY_USED'; end if;
+ insert into public.users(full_name,phone) values(clean_captain,clean_phone) on conflict(phone) do update set full_name=excluded.full_name,updated_at=now() returning * into u;
+ insert into public.reservations(reservation_code,event_id,seat_id,user_id,full_name,phone,guest_count,notes,status) values('RM-'||upper(substr(replace(gen_random_uuid()::text,'-',''),1,8)),e.id,null,u.id,clean_captain,clean_phone,e.team_size,'TEAM:'||clean_team,'PENDING') returning * into r;
+ insert into public.teams(event_id,reservation_id,team_name,captain_name,captain_phone,status) values(e.id,r.id,clean_team,clean_captain,clean_phone,'PENDING') returning * into t;
+ for i in 1..e.team_size loop insert into public.team_members(team_id,member_name,member_order) values(t.id,regexp_replace(trim(p_members[i]),'\s+',' ','g'),i); end loop;
+ return jsonb_build_object('reservation',to_jsonb(r),'team',to_jsonb(t),'event',to_jsonb(e),'members',to_jsonb(p_members));
+end $$;
+revoke all on function public.create_team_reservation(uuid,text,text,text,text[]) from public,anon,authenticated;
+grant execute on function public.create_team_reservation(uuid,text,text,text,text[]) to service_role;
