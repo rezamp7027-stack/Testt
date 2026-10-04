@@ -95,7 +95,7 @@ Deno.serve(async req => {
     ) return out({ error: "INVALID_REQUEST" }, 400);
 
     const e = await sb.from("events")
-      .select("id,title,persian_title,event_date,start_time,location,price,status,registration_mode")
+      .select("id,title,persian_title,event_date,start_time,location,price,status,event_type,registration_mode")
       .eq("id", event_id)
       .eq("status", "PUBLISHED")
       .maybeSingle();
@@ -132,7 +132,7 @@ Deno.serve(async req => {
         phone: p,
         guest_count,
         notes,
-        status: "PENDING"
+        status: e.data.event_type === "MAFIA" ? "CONFIRMED" : "PENDING"
       }).select("id,reservation_code,event_id,seat_id,full_name,phone,guest_count,notes,status,created_at").single();
 
       if (!r.error || r.error.code !== "23505") break;
