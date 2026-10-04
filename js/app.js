@@ -11,8 +11,8 @@ function applyHeaderLogo(url){
 (()=>{const s=window.rmSupabase,$=x=>document.querySelector(x),$$=x=>[...document.querySelectorAll(x)];
 let events=[],current=null,capacityMap={},countdowns=[],selectedSeatId="";
 const fd=x=>String(x).replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)),ph=x=>fd(x).replace(/[\s()-]/g,""),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const dt=x=>x?new Intl.DateTimeFormat("fa-IR",{dateStyle:"long"}).format(new Date(x+"T12:00:00")):"تاریخ تعیین نشده";
-const labels={MAFIA:"مافیا",GOL_YA_POOCH:"گل یا پوچ",PANTOMIME:"پانتومیم",SECRET_HITLER:"راز هیتلر"};
+const dt=x=>x?new Intl.DateTimeFormat("fa-IR-u-ca-persian",{dateStyle:"long",numberingSystem:"arabext"}).format(new Date(x+"T12:00:00")):"تاریخ تعیین نشده";
+const labels={MAFIA:"مافیا",GOL_YA_POOCH:"گل یا پوچ",PANTOMIME:"پانتومیم",SECRET_HITLER:"راز هیتلر"};\nconst gameSymbols={MAFIA:["♠","♣","♦","♥"],GOL_YA_POOCH:["✦","●","✧"],PANTOMIME:["✋","◉"],SECRET_HITLER:["♜","◆","♠"]};
 const gameVisuals={"MAFIA":{"icon":"♠","image":"https://vigiato.net/wp-content/uploads/2024/02/6d8474adacc1cfddc4002344e3d02fe8cd6c047f_1686616570-edited.jpg","className":"mafia"},"GOL_YA_POOCH":{"icon":"✦","image":"https://static.cdn.asset.televika.com/flmt/mov_170535_320764-b.jpg?quality=90&secret=amWLYLl7Kk4fBi3ReggNCg&sharpen=90&width=1200","className":"gol"},"PANTOMIME":{"icon":"✋","image":"https://www.ebilet.pl/now/app/uploads/2024/06/shutterstock_2461769945-scaled.jpg","className":"pantomime"},"SECRET_HITLER":{"icon":"♜","image":"https://blogs-images.forbes.com/laurenorsini/files/2016/01/hitler4.jpg","className":"hitler"}};
 const modeLabel=e=>e.registration_mode==="TEAM"?"تیمی · "+e.team_size+" نفر":"نفر به نفر";
 const toast=x=>{const e=$("#toast");e.textContent=x;e.className="toast show";setTimeout(()=>e.className="toast",2600)};
