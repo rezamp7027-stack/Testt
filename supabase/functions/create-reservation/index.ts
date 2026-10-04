@@ -114,12 +114,39 @@ Deno.serve(async req => {
     if (s.error || !s.data) return out({ error: "SEAT_NOT_FOUND" }, 404);
     if (s.data.status === "DISABLED") return out({ error: "SEAT_DISABLED" }, 409);
 
-    const u = await sb.from("users")
-      .upsert({ full_name, phone: p }, { onConflict: "phone" })
+    let userId: string | null = null;
+    const existingUser = await sb.from("users")
       .select("id")
-      .single();
+      .eq("phone", p)
+      .maybeSingle();
 
-    if (u.error) return out({ error: "RESERVATION_FAILED" }, 500);
+    if (existingUser.error) return out({ error: "RESERVATION_FAILED" }, 500);
+
+    if (existingUser.data?.id) {
+      userId = existingUser.data.id;
+      const updateUser = await sb.from("users")
+        .update({ full_name })
+        .eq("id", userId);
+      if (updateUser.error) return out({ error: "RESERVATION_FAILED" }, 500);
+    } else {
+      const createdUser = await sb.from("users")
+        .insert({ full_name, phone: p })
+        .select("id")
+        .single();
+
+      if (createdUser.error) {
+        const retryUser = await sb.from("users")
+          .select("id")
+          .eq("phone", p)
+          .maybeSingle();
+        if (retryUser.error || !retryUser.data?.id) return out({ error: "RESERVATION_FAILED" }, 500);
+        userId = retryUser.data.id;
+      } else {
+        userId = createdUser.data.id;
+      }
+    }
+
+    if (!userId) return out({ error: "RESERVATION_FAILED" }, 500);
 
     let r;
     for (let i = 0; i < 3; i++) {
@@ -127,7 +154,7 @@ Deno.serve(async req => {
         reservation_code: code(),
         event_id,
         seat_id,
-        user_id: u.data.id,
+        user_id: userId,
         full_name,
         phone: p,
         guest_count,
