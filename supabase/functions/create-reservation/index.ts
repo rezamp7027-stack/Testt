@@ -26,6 +26,19 @@ Deno.serve(async req => {
   if (req.method !== "POST") return out({ error: "METHOD_NOT_ALLOWED" }, 405);
 
   try {
+    const ipSource = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("cf-connecting-ip") || req.headers.get("x-real-ip") || "unknown";
+    const ua = req.headers.get("user-agent") || "";
+    const rateInput = new TextEncoder().encode(ipSource + "|" + ua);
+    const rateHash = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", rateInput))).map(x => x.toString(16).padStart(2, "0")).join("");
+    const windowStart = new Date(Math.floor(Date.now() / 60000) * 60000).toISOString();
+    const rate = await sb.rpc("consume_reservation_rate_limit", {
+      p_ip_hash: rateHash,
+      p_window_start: windowStart,
+      p_limit: 8
+    });
+    if (rate.error) return out({ error: "RESERVATION_FAILED" }, 503);
+    if (!rate.data) return out({ error: "RATE_LIMITED" }, 429);
+
     const b = await req.json();
     const mode = String(b.mode || "INDIVIDUAL").toUpperCase();
     const event_id = String(b.event_id || "");
