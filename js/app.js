@@ -12,7 +12,8 @@ function applyHeaderLogo(url){
 let events=[],current=null,capacityMap={},countdowns=[],selectedSeatId="";
 const fd=x=>String(x).replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)),ph=x=>fd(x).replace(/[\s()-]/g,""),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const dt=x=>x?new Intl.DateTimeFormat("fa-IR-u-ca-persian",{dateStyle:"long",numberingSystem:"arabext"}).format(new Date(x+"T12:00:00")):"تاریخ تعیین نشده";
-const labels={MAFIA:"مافیا",GOL_YA_POOCH:"گل یا پوچ",PANTOMIME:"پانتومیم",SECRET_HITLER:"راز هیتلر"};\nconst gameSymbols={MAFIA:["♠","♣","♦","♥"],GOL_YA_POOCH:["✦","●","✧"],PANTOMIME:["✋","◉"],SECRET_HITLER:["♜","◆","♠"]};
+const labels={MAFIA:"مافیا",GOL_YA_POOCH:"گل یا پوچ",PANTOMIME:"پانتومیم",SECRET_HITLER:"راز هیتلر"};
+const gameSymbols={MAFIA:["♠","♣","♦","♥"],GOL_YA_POOCH:["✦","●","✧"],PANTOMIME:["✋","◉"],SECRET_HITLER:["♜","◆","♠"]};
 const gameVisuals={"MAFIA":{"icon":"♠","image":"https://nezzal.com/assets/mafia-cover-C-iLFZqd.png","className":"mafia"},"GOL_YA_POOCH":{"icon":"✦","image":"https://commons.wikimedia.org/wiki/Special:FilePath/Gol_ya_Pooch_Game_Ready_Fists_Iran.jpg","className":"gol"},"PANTOMIME":{"icon":"✋","image":"https://static.tildacdn.com/tild3237-3932-4065-a562-653563393633/1.webp","className":"pantomime"},"SECRET_HITLER":{"icon":"♜","image":"https://cdn.anyfinder.eu/assets/pAMk3Mzk39MLcvecskI3KHrQyblabo046rlaApCywfmyBWA5CoLSFQIk0wQeIB4u?height=768","className":"hitler"}};
 const modeLabel=e=>e.registration_mode==="TEAM"?"تیمی · "+e.team_size+" نفر":"نفر به نفر";
 const toast=x=>{const e=$("#toast");e.textContent=x;e.className="toast show";setTimeout(()=>e.className="toast",2600)};
