@@ -132,3 +132,13 @@ header{background:rgba(5,6,7,.72);border-bottom-color:rgba(212,175,55,.16)}
 .booking-progress>*{position:relative;z-index:1}
 .event-card .event-meta span:first-child strong{direction:rtl}
 @media(max-width:700px){.mafia-ornaments span{font-size:72px}.booking-intro{margin-bottom:14px}.booking-mark{width:42px;height:42px;font-size:25px}.detail-image:before{font-size:70px}}
+
+
+/* Cinematic imagery layer */
+.hero{background-image:linear-gradient(90deg,rgba(5,5,7,.96) 0%,rgba(5,5,7,.78) 48%,rgba(5,5,7,.55) 100%),url("https://www.mafiaxo.com/img/bg_index.png");background-size:cover;background-position:center}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.78));pointer-events:none}
+.event-card-media{background-size:cover;background-position:center;position:relative;overflow:hidden}
+.event-card-media:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.72));pointer-events:none}
+.event-card-media .event-symbol,.event-card-media .event-type,.event-card-media .event-status{z-index:3}
+.detail-image{background-size:cover;background-position:center}
+.detail-image:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.65));pointer-events:none}
