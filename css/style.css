@@ -104,3 +104,31 @@ header{background:rgba(5,6,7,.72);border-bottom-color:rgba(212,175,55,.16)}
 .team-admin-row{border-bottom:1px solid rgba(255,255,255,.05)}
 @media(max-width:700px){.detail-image{height:210px}.detail-content{padding:20px}.detail-content h2{font-size:28px}.detail-stats{grid-template-columns:1fr 1fr}.detail-actions{grid-template-columns:1fr}.event-actions{grid-template-columns:1fr}.booking-progress i{width:20px}}
 \n.member-fields{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:8px 0 25px}.member-fields-title{grid-column:1/-1;color:#d4af37;font-size:11px;border-bottom:1px solid rgba(212,175,55,.15);padding-bottom:8px}.member-input{display:block;font-size:10px;color:#aeb5bb}.member-input input{display:block;width:100%;margin-top:6px;background:#080b0f;border:1px solid rgba(255,255,255,.09);color:#fff;padding:11px 12px}@media(max-width:600px){.member-fields{grid-template-columns:1fr}.member-fields-title{grid-column:auto}}
+
+/* Mafia identity / Persian calendar polish */
+.mafia-ornaments{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.mafia-ornaments span{position:absolute;font:clamp(70px,13vw,190px)/1 Georgia,serif;color:rgba(212,175,55,.08);filter:drop-shadow(0 0 28px rgba(212,175,55,.08))}
+.mafia-ornaments span:nth-child(1){right:4%;top:9%;transform:rotate(-18deg)}
+.mafia-ornaments span:nth-child(2){right:20%;bottom:8%;color:rgba(255,255,255,.035);transform:rotate(14deg)}
+.mafia-ornaments span:nth-child(3){left:9%;top:14%;color:rgba(185,50,60,.06);transform:rotate(12deg)}
+.mafia-ornaments span:nth-child(4){left:22%;bottom:4%;color:rgba(255,255,255,.035);transform:rotate(-10deg)}
+.hero-in{position:relative;z-index:2}
+.hero .kicker,.hero h1,.hero h2,.hero p,.hero .actions,.hero .live{position:relative;z-index:2}
+.event-card-media:before{content:"♠   ♣   ♦   ♥";position:absolute;left:16px;bottom:12px;z-index:2;font:17px Georgia,serif;letter-spacing:8px;color:rgba(255,255,255,.2);text-shadow:0 0 18px rgba(0,0,0,.8)}
+.event-card.mafia .event-card-media:before{color:rgba(240,212,135,.52)}
+.event-card.gol .event-card-media:before{content:"✦  ●  ✦  ●";color:rgba(240,212,135,.38)}
+.event-card.pantomime .event-card-media:before{content:"✋  ◉  ✋";font-family:Vazirmatn;color:rgba(255,255,255,.28)}
+.event-card.hitler .event-card-media:before{content:"♜  ◆  ♜";color:rgba(212,75,75,.4)}
+.event-card-body{position:relative}
+.event-card-body:after{content:"♠";position:absolute;left:22px;bottom:12px;font:70px Georgia;color:rgba(212,175,55,.025);pointer-events:none}
+.detail-content{position:relative;overflow:hidden}
+.detail-content:after{content:"♠   ♣   ♦   ♥";position:absolute;left:20px;bottom:5px;font:52px Georgia;letter-spacing:7px;color:rgba(212,175,55,.035);pointer-events:none}
+.detail-image:before{content:"♠";position:absolute;right:28px;top:20px;z-index:2;font:95px Georgia;color:rgba(240,212,135,.22);text-shadow:0 0 25px #000}
+.booking-intro{display:flex;align-items:center;gap:13px;margin-bottom:18px;padding-bottom:15px;border-bottom:1px solid rgba(212,175,55,.12)}
+.booking-intro small{display:block;color:#7c858d;font-size:9px;margin-top:4px}
+.booking-mark{display:grid;place-items:center;width:48px;height:48px;border:1px solid rgba(212,175,55,.35);background:radial-gradient(circle,rgba(212,175,55,.12),transparent 70%);font:29px Georgia;color:#e9ca78;box-shadow:0 0 28px rgba(212,175,55,.08)}
+.booking-progress{position:relative}
+.booking-progress:before{content:"";position:absolute;right:15%;left:15%;top:13px;height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,.14),transparent);z-index:0}
+.booking-progress>*{position:relative;z-index:1}
+.event-card .event-meta span:first-child strong{direction:rtl}
+@media(max-width:700px){.mafia-ornaments span{font-size:72px}.booking-intro{margin-bottom:14px}.booking-mark{width:42px;height:42px;font-size:25px}.detail-image:before{font-size:70px}}
