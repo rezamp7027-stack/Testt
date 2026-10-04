@@ -95,7 +95,7 @@ Deno.serve(async req => {
     ) return out({ error: "INVALID_REQUEST" }, 400);
 
     const e = await sb.from("events")
-      .select("id,title,persian_title,event_date,start_time,location,price,status")
+      .select("id,title,persian_title,event_date,start_time,location,price,status,registration_mode")
       .eq("id", event_id)
       .eq("status", "PUBLISHED")
       .maybeSingle();
