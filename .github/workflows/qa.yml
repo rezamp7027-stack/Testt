@@ -26,4 +26,4 @@ jobs:
           test -f js/admin.js
           test -f js/supabase.js
           test -f supabase/functions/create-reservation/index.ts
-          ! grep -R -n -E 'products\.html|product\.html|cart\.html|about\.html|contact\.html|Testt Café|cafe_name|menu_settings' index.html admin.html js css || true
+          ! grep -R -n -E 'products\.html|product\.html|cart\.html|about\.html|contact\.html|Testt Café|cafe_name|menu_settings' index.html admin.html js css
