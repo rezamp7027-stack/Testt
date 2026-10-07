@@ -46,6 +46,22 @@ Deno.serve(async req => {
     if (!/^[0-9a-f-]{36}$/i.test(event_id))
       return out({ error: "INVALID_REQUEST" }, 400);
 
+    const eventCheck = await sb.from("events")
+      .select("id,status,event_date,start_time")
+      .eq("id", event_id)
+      .maybeSingle();
+
+    if (eventCheck.error || !eventCheck.data || eventCheck.data.status !== "PUBLISHED")
+      return out({ error: "EVENT_NOT_AVAILABLE" }, 409);
+
+    if (eventCheck.data.event_date) {
+      const eventEnd = eventCheck.data.start_time
+        ? new Date(`${eventCheck.data.event_date}T${eventCheck.data.start_time.slice(0, 8)}+03:30`)
+        : new Date(`${eventCheck.data.event_date}T23:59:59+03:30`);
+      if (!Number.isNaN(eventEnd.getTime()) && Date.now() >= eventEnd.getTime())
+        return out({ error: "EVENT_NOT_AVAILABLE" }, 409);
+    }
+
     if (mode === "TEAM") {
       const team_name = String(b.team_name || "").trim();
       const captain_name = String(b.captain_name || "").trim();
@@ -186,6 +202,6 @@ Deno.serve(async req => {
 
     return out({ reservation: r.data, event: e.data }, 201);
   } catch (_) {
-    return out({ error: "INVALID_REQUEST" }, 400);
+    return out({ error: "RESERVATION_FAILED" }, 500);
   }
 });
